@@ -1,0 +1,14 @@
+{
+  "name": "slack_proxy",
+  "description": "Slack proxy",
+  "keywords": [
+    "slack",
+    "proxy"
+  ],
+  "env": {
+    "SLACK_WEBHOOK": {
+      "description": "Slack webhook url",
+      "required": true
+    }
+  }
+}
