@@ -17,5 +17,6 @@ exports.test = function (req, res) {
         'text': 'Hello slack',
         'color': '#000077'
     }];
-    slackConnector.publishMessage(req, res, slackMessage);
+    var request = require('request');
+    slackConnector.publishMessage(request, res, slackMessage);
 };
