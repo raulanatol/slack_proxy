@@ -29,11 +29,11 @@ function generateDefaultSlackMessage(slackMessage, jsonMessage) {
 
 function generateSlackMessageFromNonJson(slackMessage, jsonMessage) {
     slackMessage['text'] = jsonMessage.message;
-    slackMessage['attachments'] = [{
+    slackMessage['attachments'] = {
         'fallback': jsonMessage.message,
         'text': jsonMessage.message,
         'color': '#000077'
-    }];
+    };
     return slackMessage;
 }
 

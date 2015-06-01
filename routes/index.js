@@ -12,11 +12,13 @@ exports.index = function (req, res) {
 exports.test = function (req, res) {
     var slackMessage = slackConnector.generateBasicMessage();
     slackMessage['text'] = 'Hello slack!';
+    /*
     slackMessage['attachments'] = {
         'fallback': 'Hello slack',
         'text': 'Hello slack',
         'color': '#000077'
     };
+    */
     var request = require('request');
     slackConnector.publishMessage(request, res, slackMessage);
 };
