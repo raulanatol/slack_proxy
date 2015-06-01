@@ -17,7 +17,7 @@ exports.publishMessage = function (request, res, slackMessage) {
         var payload = JSON.stringify(slackMessage);
         console.log('Sending message to Slack. Url: ' + slackURL + ' payload: ' + payload);
         request.post(slackURL, {
-            from: {
+            form: {
                 "payload": payload
             }
         }, function (error) {
