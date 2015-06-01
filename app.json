@@ -9,6 +9,21 @@
     "SLACK_WEBHOOK": {
       "description": "Slack webhook url",
       "required": true
+    },
+    "SLACK_USERNAME": {
+      "description": "Name of the slack proxy",
+      "value": "Slack proxy",
+      "required": false
+    },
+    "SLACK_ICON_EMOJI": {
+      "description": "Icon in slack",
+      "value": ":triangular_flag_on_post:",
+      "required": false
+    },
+    "SLACK_CHANNEL": {
+      "description": "Notifications channel in slack",
+      "value": "#general",
+      "required": false
     }
   }
 }
