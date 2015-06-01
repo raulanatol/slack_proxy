@@ -14,10 +14,11 @@ exports.generateBasicMessage = function generateBasicSlackMessage() {
 exports.publishMessage = function (request, res, slackMessage) {
     var slackURL = process.env['SLACK_WEBHOOK'];
     if (typeof slackURL != "undefined") {
-        console.log('Sending message to Slack. Url: ' + slackURL);
+        var payload = JSON.stringify(slackMessage);
+        console.log('Sending message to Slack. Url: ' + slackURL + ' payload: ' + payload);
         request.post(slackURL, {
             from: {
-                "payload": JSON.stringify(slackMessage)
+                "payload": payload
             }
         }, function (error) {
             if (error) {
