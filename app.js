@@ -33,7 +33,7 @@ if ('development' == app.get('env')) {
 }
 
 app.post('/aws/cloudWatch', routesCloudWatch.cloudWatch);
-app.post('/', routesIndex.index);
+app.get('/', routesIndex.index);
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
