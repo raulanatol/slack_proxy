@@ -1,6 +1,9 @@
 /**
  * Created by @raulanatol on 29/05/15.
  */
+
+var slackConnector = require('../slack/connector');
+
 function parseMessageToJSON(message) {
     var jsonMessage;
     try {
@@ -12,37 +15,6 @@ function parseMessageToJSON(message) {
         };
     }
     return jsonMessage;
-}
-
-function publishSlackMessage(request, res, slackMessage) {
-    var slackURL = process.env['SLACK_WEBHOOK'];
-    if (typeof slackURL != "undefined") {
-        console.log('Sending message to Slack. Url: ' + slackURL);
-        request.post(slackURL, {
-            from: {
-                "payload": JSON.stringify(slackMessage)
-            }
-        }, function (error) {
-            if (error) {
-                console.log('Error sending slack message', error);
-                return res.send('Communication with Slack failed!', 500);
-            } else {
-                console.log('Messaged sent to Slack!');
-                res.send('Ok');
-            }
-        });
-    } else {
-        console.log('SLACK_WEBHOOK not defined. Use: heroku config:set SLACK_WEBHOOK=xxxxx');
-        return res.send('SLACK_WEBHOOK not defined!', 500);
-    }
-}
-
-function generateBasicSlackMessage() {
-    return {
-        'username': (typeof process.env['SLACK_USERNAME'] != "undefined") ? process.env['SLACK_USERNAME'] : 'Slack proxy',
-        'icon_emoji': (typeof process.env['SLACK_ICON_EMOJI'] != "undefined") ? process.env['SLACK_ICON_EMOJI'] : ':triangular_flag_on_post:',
-        'channel': (typeof process.env['SLACK_CHANNEL'] != "undefined") ? process.env['SLACK_CHANNEL'] : '#general'
-    }
 }
 
 function generateDefaultSlackMessage(slackMessage, jsonMessage) {
@@ -102,7 +74,7 @@ exports.cloudWatch = function (req, res) {
             }
         });
     } else if (message['Type'] == 'Notification') {
-        var slackMessage = generateBasicSlackMessage();
+        var slackMessage = slackConnector.generateBasicMessage();
         var jsonMessage = parseMessageToJSON(message['Message']);
         //TODO add more notifications type
         if (jsonMessage['AlarmName']) {
@@ -112,7 +84,7 @@ exports.cloudWatch = function (req, res) {
         } else {
             slackMessage = generateDefaultSlackMessage(slackMessage, jsonMessage);
         }
-        publishSlackMessage(request, res, slackMessage);
+        slackConnector.publishMessage(request, res, slackMessage);
     } else {
         console.log("Unknown type of message: " + message.Type + ' message: ' + message);
     }
